@@ -10,7 +10,7 @@ init()
 print(Fore.RED + "Killing Roblox process")
 
 for proc in psutil.process_iter():
-    if proc.name() == "RobloxPlayerBeta":
+    if proc.name() == "RobloxPlayerBeta.exe":
         proc.kill()
 
 print(Fore.GREEN + "Killed process\n")
