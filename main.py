@@ -1,8 +1,11 @@
+# Imports
 import os # You're insecure :)
 import psutil
 from colorama import Fore, Back, init
 import shutil
 from time import sleep
+import ctypes
+import pyperclip as pc
 
 # CONSTANTS
 HOME_PATH = os.path.expanduser("~")
@@ -11,13 +14,24 @@ USER_TEMP = HOME_PATH + "\\AppData\\Local\\Temp"
 PREFETCH = "C:\\Windows\\Prefetch"
 SYS_TEMP = "C:\\Windows\\Temp"
 
-print("Special thanks to Sirmeme for making a video!")
-sleep(2)
+# Check if running as Administrator
+if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+    print("Open as Administrator...")
+    sleep(2)
+    exit()
 
+# Start
+print("Special thanks to Sirmeme for making a video!")
+print("Discord server: discord.gg/MKVr5DunmQ (Copied to clipboard)")
+
+pc.copy("discord.gg/MKVr5DunmQ")
+
+sleep(5)
 os.system("cls")
 
 init()  # Colorama init
 
+# Killing roblox
 print(Fore.RED + "Killing Roblox process")
 
 for proc in psutil.process_iter():
@@ -28,16 +42,18 @@ print(Fore.GREEN + "Killed process\n")
 
 print(Fore.WHITE + "--------------------\n")
 
+# Method ONE
 print(Fore.GREEN + "Trying Method #1 - Deleting GlobalBasicSettings_13.xml")
 
-if os.path.exists(ROBLOX_PATH + "GlobalBasicSettings_13.xml"):
-    os.remove(ROBLOX_PATH + "GlobalBasicSettings_13.xml")
+if os.path.exists(ROBLOX_PATH + "\\GlobalBasicSettings_13.xml"):
+    os.remove(ROBLOX_PATH + "\\GlobalBasicSettings_13.xml")
     print(Fore.GREEN + "File successfully deleted\n")
 else:
     print(Fore.RED + "File doesn't exist\n")
 
 print(Fore.WHITE + "--------------------\n")
 
+# Method TWO
 print(Fore.GREEN + "Trying Method #2 - Deleting Temp files")
 
 try:
@@ -50,6 +66,24 @@ except:
 
 print(Fore.WHITE + "--------------------\n")
 
+# Method THREE
+print(Fore.GREEN + "Trying Method #3 - Deleting every file in ROBLOX Folder" + Fore.RESET)
 
+print(Back.RED + f"WARNING: EVERY FILE IN {ROBLOX_PATH} WILL BE DELETED" + Back.RESET)
+
+if str(input("\nDo you want to continue (Y/N) ")).upper() == "Y":
+    for file in os.listdir(ROBLOX_PATH):
+        try:
+            os.remove(os.path.join(ROBLOX_PATH, file))
+        except:
+            pass
+    print(Fore.GREEN + "Files successfully deleted\n")
+else:
+    print("Omitting...")
+
+sleep(3)
+
+# Finish
+os.system("cls")
 print(Fore.YELLOW + "If doesn't work remove your Roblox client" + Fore.RESET)
 input("Press any key for exit...")
